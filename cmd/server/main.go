@@ -1,45 +1,41 @@
 package main
 
 import (
-	"fmt"
-	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"hack-boilerplate/internal/todo/delivery"
-	"net/http"
-	"os"
+	"github.com/GeorgiyGusev/hack-backend/internal/todo"
+	httpSrvLib "github.com/GeorgiyGusev/http-srv-library"
+	"github.com/go-playground/validator/v10"
+	loggingLib "github.com/neiasit/logging-library"
+	redisLib "github.com/neiasit/redis-library"
+	"go.uber.org/fx"
+	"go.uber.org/fx/fxevent"
+	"log/slog"
 )
 
 func main() {
-	server := echo.New()
-	server.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{"*"},
-		AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
-	}))
-	server.Use(middleware.Logger())
+	app := fx.New(
 
-	serverId := uuid.NewString()
+		// setting validator
+		fx.Provide(func() *validator.Validate {
+			return validator.New(
+				validator.WithRequiredStructEnabled(),
+			)
+		}),
 
-	serviceName := os.Getenv("SERVICE_NAME")
-	if serviceName == "" {
-		panic("service-name not set")
-	}
-	serviceVersion := os.Getenv("SERVICE_VERSION")
-	if serviceVersion == "" {
-		panic("service-version not set")
-	}
+		// including platform libs here
+		loggingLib.Module,
+		redisLib.Module,
+		httpSrvLib.Module,
 
-	baseGroup := server.Group(fmt.Sprintf("/%s/%s", serviceName, serviceVersion))
+		// setting logger
+		fx.WithLogger(func(logger *slog.Logger) fxevent.Logger {
+			return &fxevent.SlogLogger{
+				Logger: logger,
+			}
+		}),
 
-	baseGroup.GET("/id", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, echo.Map{"id": serverId})
-	})
+		// setup domains
+		todo.Module,
+	)
 
-	delivery.Register(baseGroup)
-
-	err := server.Start(":8080")
-	if err != nil {
-		return
-	}
+	app.Run()
 }

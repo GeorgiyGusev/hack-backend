@@ -17,6 +17,7 @@ func Register(e EchoRouter) {
 	impl := &Handlers{
 		Todos: make(map[string]Todo),
 	}
+
 	RegisterHandlers(e, impl)
 }
 
