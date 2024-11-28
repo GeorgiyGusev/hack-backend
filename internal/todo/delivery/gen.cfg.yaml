@@ -1,0 +1,7 @@
+package: delivery
+generate:
+  echo-server: true
+  models: true
+output: stubs.go
+output-options:
+  include-tags: ["Tasks"]

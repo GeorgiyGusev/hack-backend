@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  title: Todo List API
+  description: REST API для управления задачами (todo-list).
+  version: 1.1.0
+  contact:
+    name: API Support
+    email: support@example.com
+servers:
+  - url: http://backend.localhost/todo-api/v1
+    description: Локальный сервер для разработки
+
+tags:
+  - name: Tasks
+    description: Управление задачами (создание, обновление, удаление, просмотр)
+
+paths:
+  /todos:
+    get:
+      tags:
+        - Tasks
+      summary: Получить список задач
+      description: Возвращает список задач с возможностью фильтрации по статусу и текстовому запросу.
+      operationId: getTodos
+      parameters:
+        - name: status
+          in: query
+          description: Фильтрация задач по статусу (`completed`, `pending`).
+          schema:
+            type: string
+            enum: [completed, pending]
+        - name: search
+          in: query
+          description: Фильтрация задач по ключевым словам в заголовке или описании.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+        '500':
+          description: Ошибка сервера
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Tasks
+      summary: Создать новую задачу
+      description: Добавляет новую задачу в список.
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTodo'
+      responses:
+        '201':
+          description: Задача успешно создана
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /todos/{id}:
+    get:
+      tags:
+        - Tasks
+      summary: Получить задачу по ID
+      description: Возвращает информацию о задаче по её ID.
+      operationId: getTodoById
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор задачи
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags:
+        - Tasks
+      summary: Обновить задачу
+      description: Обновляет заголовок, описание или статус задачи.
+      operationId: updateTodo
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор задачи
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodo'
+      responses:
+        '200':
+          description: Задача успешно обновлена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '400':
+          description: Некорректные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Tasks
+      summary: Удалить задачу
+      description: Удаляет задачу по её ID.
+      operationId: deleteTodo
+      parameters:
+        - name: id
+          in: path
+          description: Уникальный идентификатор задачи
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Задача успешно удалена
+        '404':
+          description: Задача не найдена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Уникальный идентификатор задачи
+          example: "12345"
+        title:
+          type: string
+          description: Заголовок задачи
+          example: "Купить продукты"
+        description:
+          type: string
+          description: Подробное описание задачи
+          example: "Купить молоко, хлеб и масло."
+        status:
+          type: string
+          description: Статус задачи
+          enum: [completed, pending]
+          example: "pending"
+        createdAt:
+          type: string
+          format: date-time
+          description: Дата и время создания задачи
+          example: "2024-11-12T12:34:56Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: Дата и время последнего обновления задачи
+          example: "2024-11-12T15:00:00Z"
+
+    CreateTodo:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: Заголовок задачи
+          example: "Купить продукты"
+        description:
+          type: string
+          description: Подробное описание задачи
+          example: "Купить молоко, хлеб и масло."
+
+    UpdateTodo:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Новый заголовок задачи
+          example: "Обновить продукты"
+        description:
+          type: string
+          description: Новое описание задачи
+          example: "Добавить сыр и фрукты в список покупок."
+        status:
+          type: string
+          description: Новый статус задачи
+          enum: [completed, pending]
+          example: "completed"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          description: Код ошибки
+          example: 404
+        message:
+          type: string
+          description: Сообщение об ошибке
+          example: "Задача не найдена"
