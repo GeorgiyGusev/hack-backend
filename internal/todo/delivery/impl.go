@@ -1,6 +1,7 @@
 package delivery
 
 import (
+	"github.com/GeorgiyGusev/auth-library/provider"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -13,10 +14,11 @@ type Handlers struct {
 	Todos map[string]Todo
 }
 
-func Register(e EchoRouter) {
+func Register(e EchoRouter, provider provider.AuthProvider) {
 	impl := &Handlers{
 		Todos: make(map[string]Todo),
 	}
+	provider.AddEndpointSecurity("/todos", "admin")
 
 	RegisterHandlers(e, impl)
 }

@@ -2,12 +2,16 @@ name: "service-boilerplate"
 
 services:
   backend:
+    ports:
+      - "8080:8080"
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      SERVICE_NAME: todo-api
-      SERVICE_VERSION: v1
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AUTH_PUBLIC_JWK_URI: https://sso.kowlad.ru/realms/minin/protocol/openid-connect/certs
+      AUTH_CLIENT_ID: minin-client
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.backend.rule=Host(`api.goida.dev`) && PathPrefix(`/todo-api/v1`)"
@@ -16,8 +20,17 @@ services:
       - "traefik.http.routers.backend.tls.certresolver=leresolver"
     networks:
       - traefik
+      - backend
     restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    networks:
+      - backend
+
 networks:
+  backend:
   traefik:
     name: "traefik-network"
     external: true

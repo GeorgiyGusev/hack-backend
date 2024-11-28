@@ -1,6 +1,7 @@
 package main
 
 import (
+	authLib "github.com/GeorgiyGusev/auth-library"
 	"github.com/GeorgiyGusev/hack-backend/internal/todo"
 	httpSrvLib "github.com/GeorgiyGusev/http-srv-library"
 	"github.com/go-playground/validator/v10"
@@ -23,8 +24,9 @@ func main() {
 
 		// including platform libs here
 		loggingLib.Module,
+		authLib.AuthKeycloakModule,
 		redisLib.Module,
-		httpSrvLib.Module,
+		httpSrvLib.ModuleWithAuth,
 
 		// setting logger
 		fx.WithLogger(func(logger *slog.Logger) fxevent.Logger {
