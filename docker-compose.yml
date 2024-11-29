@@ -25,7 +25,6 @@ services:
       - "traefik.http.services.api-app.loadbalancer.server.port=8080"
     networks:
       - traefik
-      - backend
     restart: unless-stopped
     depends_on:
       - redis
@@ -36,7 +35,7 @@ services:
     image: redis:latest
     restart: unless-stopped
     networks:
-      - backend
+      - traefik
 
   backend-database:
     container_name: "backend-database"
@@ -64,7 +63,7 @@ services:
     volumes:
       - ./migrations:/migrations
     networks:
-      - backend
+      - traefik
     depends_on:
       - backend-database
     restart: on-failure
@@ -76,6 +75,5 @@ volumes:
 
 
 networks:
-  backend:
   traefik:
     external: true
