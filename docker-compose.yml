@@ -69,6 +69,7 @@ services:
       - backend
     depends_on:
       - backend-database
+    restart: on-failure
 
 
 
