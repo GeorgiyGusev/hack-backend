@@ -76,7 +76,7 @@ func (i *Impl) UpdateOrganization(ctx context.Context, dto *gen.OrganizationUpda
 	organization.Title = dto.Title
 	organization.Description = dto.Description
 	organization.Phone = dto.Phone
-	organization.Email = string(dto.Email)
+	organization.Email = dto.Email
 	organization.PhotoId = dto.PhotoId
 	organization.Longtitude = dto.Longitude
 	organization.Latitude = dto.Latitude

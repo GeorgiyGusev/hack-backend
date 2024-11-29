@@ -65,6 +65,8 @@ func (h *Handlers) GetAllOrganizations(ctx echo.Context) error {
 			Phone:       o.Phone,
 			PhotoId:     o.PhotoId,
 			Status:      gen.OrganizationStatus(o.Status),
+			Longitude:   o.Longtitude,
+			Latitude:    o.Latitude,
 		})
 	}
 	return ctx.JSON(http.StatusOK, resp)
