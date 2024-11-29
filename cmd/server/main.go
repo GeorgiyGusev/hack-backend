@@ -2,6 +2,7 @@ package main
 
 import (
 	authLib "github.com/GeorgiyGusev/auth-library"
+	"github.com/GeorgiyGusev/hack-backend/internal/ai_chat"
 	"github.com/GeorgiyGusev/hack-backend/internal/news"
 	"github.com/GeorgiyGusev/hack-backend/internal/organizations"
 	"github.com/GeorgiyGusev/hack-backend/pkg/postgres"
@@ -41,6 +42,7 @@ func main() {
 		// setup domains
 		organizations.Module,
 		news.Module,
+		ai_chat.Module,
 	)
 
 	app.Run()

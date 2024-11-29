@@ -1,0 +1,8 @@
+package: gen
+generate:
+  echo-server: true
+  models: true
+output: ../gen/stubs.go
+output-options:
+  include-tags: [ "Ai Chat" ]
+
