@@ -2,17 +2,18 @@ package models
 
 import (
 	"github.com/GeorgiyGusev/hack-backend/internal/news/entity"
+	"github.com/lib/pq"
 	"time"
 )
 
 type NewsDB struct {
-	Id             string    `db:"id"`
-	OrganizationId string    `db:"organization_id"`
-	Title          string    `db:"title"`
-	Description    string    `db:"description"`
-	Media          []string  `db:"media"`
-	CreatedAt      time.Time `db:"created_at"`
-	UpdatedAt      time.Time `db:"updated_at"`
+	Id             string         `db:"id"`
+	OrganizationId string         `db:"organization_id"`
+	Title          string         `db:"title"`
+	Description    string         `db:"description"`
+	Media          pq.StringArray `db:"media"`
+	CreatedAt      time.Time      `db:"created_at"`
+	UpdatedAt      time.Time      `db:"updated_at"`
 }
 
 func (n *NewsDB) MapToDomain() *entity.News {
