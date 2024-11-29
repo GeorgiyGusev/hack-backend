@@ -4,5 +4,5 @@ generate:
   models: true
 output: ../gen/stubs.go
 output-options:
-  include-tags: [ "Organizations" ]
+  include-tags: [ "News" ]
 
