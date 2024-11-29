@@ -21,7 +21,6 @@ func Register(logger *slog.Logger, usecase usecase.Usecase, srv *echo.Echo, auth
 	impl := &Handlers{logger: logger, usecase: usecase}
 	gen.RegisterHandlers(srv, impl)
 
-	authProvider.AddEndpointSecurity("/organizations", "user")
 	authProvider.AddEndpointSecurity("/organizations/user", "user")
 	authProvider.AddEndpointSecurity("/organizations/moderation", "moderator")
 }
