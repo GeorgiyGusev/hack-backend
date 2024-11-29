@@ -24,6 +24,10 @@ type Impl struct {
 	logger *slog.Logger
 }
 
+func NewImpl(repo Repository, logger *slog.Logger) *Impl {
+	return &Impl{repo: repo, logger: logger}
+}
+
 func (i *Impl) Create(ctx context.Context, dto *gen.CreateNews) error {
 	news := entity.NewNews(&entity.NewsInput{
 		Title:          dto.Title,

@@ -15,6 +15,14 @@ type Handlers struct {
 	usecase usecase.Usecase
 }
 
+func Register(ec *echo.Echo, logger *slog.Logger, usecase usecase.Usecase) {
+	impl := &Handlers{
+		logger:  logger,
+		usecase: usecase,
+	}
+	gen.RegisterHandlers(ec, impl)
+}
+
 func (h *Handlers) GetAllNews(ctx echo.Context) error {
 	news, err := h.usecase.GetAllNews(context.Background())
 	if err != nil {

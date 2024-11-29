@@ -2,6 +2,7 @@ package main
 
 import (
 	authLib "github.com/GeorgiyGusev/auth-library"
+	"github.com/GeorgiyGusev/hack-backend/internal/news"
 	"github.com/GeorgiyGusev/hack-backend/internal/organizations"
 	"github.com/GeorgiyGusev/hack-backend/pkg/postgres"
 	httpSrvLib "github.com/GeorgiyGusev/http-srv-library"
@@ -39,6 +40,7 @@ func main() {
 
 		// setup domains
 		organizations.Module,
+		news.Module,
 	)
 
 	app.Run()
