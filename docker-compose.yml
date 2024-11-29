@@ -49,7 +49,7 @@ services:
     volumes:
       - data:/var/lib/postgresql/data
     networks:
-      - backend
+      - traefik
     restart: unless-stopped
 
   migrations:
