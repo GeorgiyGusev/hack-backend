@@ -50,10 +50,10 @@ func (i *Impl) GetAllOrganizations(ctx context.Context) (*[]entity.Organization,
 func (i *Impl) CreateOrganization(ctx context.Context, dto *gen.OrganizationCreate, userId string) error {
 	organization := entity.NewOrganization(&entity.CreateOrganizationInput{
 		OwnerId:     userId,
-		PhotoId:     dto.PhotoId.String(),
+		PhotoId:     *dto.PhotoId,
 		Title:       dto.Title,
 		Description: dto.Description,
-		Email:       string(dto.Email),
+		Email:       dto.Email,
 		Phone:       dto.Phone,
 		Status:      string(gen.Pending),
 		Longtitude:  dto.Longitude,
@@ -77,7 +77,7 @@ func (i *Impl) UpdateOrganization(ctx context.Context, dto *gen.OrganizationUpda
 	organization.Description = dto.Description
 	organization.Phone = dto.Phone
 	organization.Email = string(dto.Email)
-	organization.PhotoId = dto.PhotoId.String()
+	organization.PhotoId = *dto.PhotoId
 	organization.Longtitude = dto.Longitude
 	organization.Latitude = dto.Latitude
 	err = i.repo.UpdateOrganization(ctx, organization)

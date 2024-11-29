@@ -7,7 +7,6 @@ import (
 	"github.com/GeorgiyGusev/hack-backend/internal/organizations/gen"
 	"github.com/GeorgiyGusev/hack-backend/internal/organizations/usecase"
 	"github.com/labstack/echo/v4"
-	openapi_types "github.com/oapi-codegen/runtime/types"
 	"log/slog"
 	"net/http"
 )
@@ -37,26 +36,13 @@ func (h *Handlers) GetAllOrganizationsForUser(ctx echo.Context) error {
 
 	resp := []gen.Organization{}
 	for _, o := range *orgs {
-		id := openapi_types.UUID{}
-		err := id.Scan(o.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
-
-		photoId := openapi_types.UUID{}
-		err = photoId.Scan(o.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
 		resp = append(resp, gen.Organization{
-			Id:          id,
+			Id:          o.Id,
 			Title:       o.Title,
 			Description: o.Description,
-			Email:       openapi_types.Email([]byte(o.Email)),
+			Email:       o.Email,
 			Phone:       o.Phone,
-			PhotoId:     &photoId,
+			PhotoId:     &o.PhotoId,
 			Status:      gen.OrganizationStatus(o.Status),
 		})
 	}
@@ -72,26 +58,13 @@ func (h *Handlers) GetAllOrganizations(ctx echo.Context) error {
 
 	resp := []gen.Organization{}
 	for _, o := range *orgs {
-		id := openapi_types.UUID{}
-		err := id.Scan(o.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
-
-		photoId := openapi_types.UUID{}
-		err = photoId.Scan(o.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
 		resp = append(resp, gen.Organization{
-			Id:          id,
+			Id:          o.Id,
 			Title:       o.Title,
 			Description: o.Description,
-			Email:       openapi_types.Email([]byte(o.Email)),
+			Email:       o.Email,
 			Phone:       o.Phone,
-			PhotoId:     &photoId,
+			PhotoId:     &o.PhotoId,
 			Status:      gen.OrganizationStatus(o.Status),
 		})
 	}
@@ -154,26 +127,14 @@ func (h *Handlers) GetOrganizationByStatus(ctx echo.Context) error {
 	}
 	resp := []gen.Organization{}
 	for _, v := range orgs {
-		id := openapi_types.UUID{}
-		err := id.Scan(v.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
 
-		photoId := openapi_types.UUID{}
-		err = photoId.Scan(v.Id)
-		if err != nil {
-			h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-			return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-		}
 		resp = append(resp, gen.Organization{
-			Id:          id,
+			Id:          v.Id,
 			Title:       v.Title,
 			Description: v.Description,
-			Email:       openapi_types.Email([]byte(v.Email)),
+			Email:       v.Email,
 			Phone:       v.Phone,
-			PhotoId:     &photoId,
+			PhotoId:     &v.PhotoId,
 			Status:      gen.OrganizationStatus(v.Status),
 			Longitude:   v.Longtitude,
 			Latitude:    v.Latitude,
@@ -199,27 +160,14 @@ func (h *Handlers) GetOrganizationById(ctx echo.Context, id string) error {
 		h.logger.Error("Cannot get organization", "error", err.Error())
 		return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 	}
-	orgId := openapi_types.UUID{}
-	err = orgId.Scan(org.Id)
-	if err != nil {
-		h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-		return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-	}
-
-	photoId := openapi_types.UUID{}
-	err = photoId.Scan(org.Id)
-	if err != nil {
-		h.logger.Error("Cannot cast string to openapi_types.UUID", "error", err.Error())
-		return ctx.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-	}
 
 	return ctx.JSON(http.StatusOK, gen.Organization{
-		Id:          orgId,
+		Id:          org.Id,
 		Title:       org.Title,
 		Description: org.Description,
-		Email:       openapi_types.Email([]byte(org.Email)),
+		Email:       org.Email,
 		Phone:       org.Phone,
-		PhotoId:     &photoId,
+		PhotoId:     &org.PhotoId,
 		Status:      gen.OrganizationStatus(org.Status),
 		Longitude:   org.Longtitude,
 		Latitude:    org.Latitude,

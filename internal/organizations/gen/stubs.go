@@ -9,7 +9,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/oapi-codegen/runtime"
-	openapi_types "github.com/oapi-codegen/runtime/types"
 )
 
 // Defines values for OrganizationStatus.
@@ -45,10 +44,10 @@ type Organization struct {
 	Description string `json:"description"`
 
 	// Email Электронная почта
-	Email openapi_types.Email `json:"email"`
+	Email string `json:"email"`
 
 	// Id Уникальный идентификатор организации
-	Id openapi_types.UUID `json:"id"`
+	Id string `json:"id"`
 
 	// Latitude Географическая широта
 	Latitude float32 `json:"latitude"`
@@ -57,13 +56,13 @@ type Organization struct {
 	Longitude float32 `json:"longitude"`
 
 	// OwnerId Уникальный идентификатор организации
-	OwnerId *openapi_types.UUID `json:"owner_id,omitempty"`
+	OwnerId *string `json:"owner_id,omitempty"`
 
 	// Phone Контактный телефон
 	Phone string `json:"phone"`
 
 	// PhotoId ID фотографии
-	PhotoId *openapi_types.UUID `json:"photo_id"`
+	PhotoId *string `json:"photo_id"`
 
 	// Status Статус организации
 	Status OrganizationStatus `json:"status"`
@@ -81,7 +80,7 @@ type OrganizationCreate struct {
 	Description string `json:"description"`
 
 	// Email Электронная почта
-	Email openapi_types.Email `json:"email"`
+	Email string `json:"email"`
 
 	// Latitude Географическая широта
 	Latitude float32 `json:"latitude"`
@@ -93,7 +92,7 @@ type OrganizationCreate struct {
 	Phone string `json:"phone"`
 
 	// PhotoId ID фотографии
-	PhotoId *openapi_types.UUID `json:"photo_id"`
+	PhotoId *string `json:"photo_id"`
 
 	// Title Название организации
 	Title string `json:"title"`
@@ -105,7 +104,7 @@ type OrganizationUpdate struct {
 	Description string `json:"description"`
 
 	// Email Электронная почта
-	Email openapi_types.Email `json:"email"`
+	Email string `json:"email"`
 
 	// Latitude Географическая широта
 	Latitude float32 `json:"latitude"`
@@ -117,7 +116,7 @@ type OrganizationUpdate struct {
 	Phone string `json:"phone"`
 
 	// PhotoId ID фотографии
-	PhotoId *openapi_types.UUID `json:"photo_id"`
+	PhotoId *string `json:"photo_id"`
 
 	// Title Название организации
 	Title string `json:"title"`
