@@ -11,7 +11,7 @@ const (
 type Organization struct {
 	Id          string
 	OwnerId     string
-	PhotoId     string
+	PhotoId     *string
 	Title       string
 	Description string
 	Phone       string
@@ -23,7 +23,7 @@ type Organization struct {
 
 type CreateOrganizationInput struct {
 	OwnerId     string
-	PhotoId     string
+	PhotoId     *string
 	Title       string
 	Description string
 	Phone       string

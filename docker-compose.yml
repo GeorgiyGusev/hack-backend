@@ -29,6 +29,10 @@ services:
       - traefik
       - backend
     restart: unless-stopped
+    depends_on:
+      - redis
+      - migrations
+      - backend-database
 
   redis:
     image: redis:latest
@@ -50,6 +54,22 @@ services:
     networks:
       - backend
     restart: unless-stopped
+
+  migrations:
+    image: migrate/migrate
+    entrypoint: [
+      "migrate",
+      "-database", "postgres://minin:minin@backend-database:5432/postgres?sslmode=disable",
+      "-path", "/migrations",
+      "up"
+    ]
+    volumes:
+      - ./migrations:/migrations
+    networks:
+      - backend
+    depends_on:
+      - backend-database
+
 
 
 volumes:
