@@ -11,7 +11,7 @@ CREATE TABLE organizations
     status      VARCHAR(50)  NOT NULL CHECK (
         status IN ('pending', 'approved', 'rejected') -- Статус организации
         ),
-    longitude   FLOAT        NOT NULL,                -- Географическая долгота
+    longtitude   FLOAT        NOT NULL,                -- Географическая долгота
     latitude    FLOAT        NOT NULL,                -- Географическая широта
     created_at  TIMESTAMP DEFAULT NOW(),              -- Дата создания записи
     updated_at  TIMESTAMP DEFAULT NOW()               -- Дата последнего обновления записи
