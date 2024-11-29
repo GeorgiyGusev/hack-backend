@@ -78,5 +78,4 @@ volumes:
 networks:
   backend:
   traefik:
-    name: "traefik-network"
     external: true
