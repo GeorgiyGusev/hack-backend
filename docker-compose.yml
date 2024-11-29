@@ -12,9 +12,14 @@ services:
       REDIS_PORT: 6379
       AUTH_PUBLIC_JWK_URI: https://sso.kowlad.ru/realms/minin/protocol/openid-connect/certs
       AUTH_CLIENT_ID: minin-client
+      POSTGRES_DB_NAME: postgres
+      POSTGRES_DB_USER: minin
+      POSTGRES_DB_PASS: minin
+      POSTGRES_DB_HOST: backend-database
+      POSTGRES_DB_PORT: 5432
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=Host(`api.goida.dev`) && PathPrefix(`/todo-api/v1`)"
+      - "traefik.http.routers.backend.rule=Host(`api.kowlad.ru`)"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls=true"
       - "traefik.http.routers.backend.tls.certresolver=leresolver"
@@ -28,6 +33,26 @@ services:
     restart: unless-stopped
     networks:
       - backend
+
+  backend-database:
+    container_name: "backend-database"
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: minin
+      POSTGRES_PASSWORD: minin
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+volumes:
+  data:
+
 
 networks:
   backend:

@@ -2,7 +2,8 @@ package main
 
 import (
 	authLib "github.com/GeorgiyGusev/auth-library"
-	"github.com/GeorgiyGusev/hack-backend/internal/todo"
+	"github.com/GeorgiyGusev/hack-backend/internal/organizations"
+	"github.com/GeorgiyGusev/hack-backend/pkg/postgres"
 	httpSrvLib "github.com/GeorgiyGusev/http-srv-library"
 	"github.com/go-playground/validator/v10"
 	loggingLib "github.com/neiasit/logging-library"
@@ -27,6 +28,7 @@ func main() {
 		authLib.AuthKeycloakModule,
 		redisLib.Module,
 		httpSrvLib.ModuleWithAuth,
+		postgres.Module,
 
 		// setting logger
 		fx.WithLogger(func(logger *slog.Logger) fxevent.Logger {
@@ -36,7 +38,7 @@ func main() {
 		}),
 
 		// setup domains
-		todo.Module,
+		organizations.Module,
 	)
 
 	app.Run()

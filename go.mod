@@ -3,11 +3,14 @@ module github.com/GeorgiyGusev/hack-backend
 go 1.23.3
 
 require (
-	github.com/GeorgiyGusev/http-srv-library v1.0.3
-	github.com/GeorgiyGusev/auth-library v1.0.2
+	github.com/GeorgiyGusev/auth-library v1.0.3
+	github.com/GeorgiyGusev/http-srv-library v1.0.5
 	github.com/go-playground/validator/v10 v10.23.0
-	github.com/google/uuid v1.6.0
+	github.com/google/uuid v1.5.0
+	github.com/ilyakaznacheev/cleanenv v1.5.0
+	github.com/jmoiron/sqlx v1.4.0
 	github.com/labstack/echo/v4 v4.12.0
+	github.com/lib/pq v1.10.9
 	github.com/neiasit/logging-library v1.0.9
 	github.com/neiasit/redis-library v1.0.2
 	github.com/oapi-codegen/oapi-codegen/v2 v2.4.1
@@ -30,7 +33,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
-	github.com/ilyakaznacheev/cleanenv v1.5.0 // indirect
 	github.com/invopop/yaml v0.3.1 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
@@ -47,7 +49,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
-	github.com/neiasit/auth-library v1.0.3 // indirect
 	github.com/perimeterx/marshmallow v1.1.5 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/redis/go-redis/v9 v9.7.0 // indirect
